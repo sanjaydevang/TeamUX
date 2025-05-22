@@ -1,44 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Teamable</title>
-        <link rel="stylesheet" href="style.css" />
-        <script src="app.js"></script>
-        <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-        <meta charset="utf-8" />
-    </head>
-    <body>
-        <div id="display-view">
-            <h1>User profile</h1>
-            <img src="Ma.png">
-            
-            <span>Name: </span><b id="name">Anna Smith</b>
-            <hr />
+<head>
+    <title>Teamable</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
 
-            <span>Email: </span><b id="email">anna.smith@example.com</b>
-            <hr />
+    <!-- CDN Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+</head>
+<body>
 
-            <span>Interests: </span><b id="interests">coding</b>
-            <hr />
+    <!-- Display View -->
+    <div id="display-view">
+        <h1>User Profile</h1>
+        <img src="Ma.png" class="profile-pic">
 
-            <button onclick="handleEditProfile()">Edit Profile</button>
-        </div>
-        <div id="edit-view">
-            <h2>User profile</h2>
-            <img src="Ma.png">
-            <span>Name: </span>
-            <input type="text" id="input-name" placeholder="Anna Smith"/>
-            <hr />
+        <span>Name: </span><b id="name">Anna Smith</b>
+        <hr />
 
-            <span>Email: </span>
-            <input type="text" id="input-email" placeholder="anna.smith@example.com" />
-            <hr />
+        <span>Email: </span><b id="email">anna.smith@example.com</b>
+        <hr />
 
-            <span>Interests: </span>
-            <input type="text" id="input-interests" placeholder="coding" />
-            <hr />
+        <span>Date of Birth: </span>
+        <input type="text" id="dob-display" placeholder="YYYY-MM-DD" />
+        <hr />
 
-            <button onclick="handleUpdateProfile()">Update Profile</button>
-        </div>
-    </body>
+        <span>Interests: </span><b id="interests">coding</b>
+        <hr />
+
+        <button onclick="handleEditProfile()">Edit Profile</button>
+    </div>
+
+    <!-- Edit View -->
+    <div id="edit-view" style="display: none;">
+        <h2>Edit Profile</h2>
+        <img src="Ma.png" class="profile-pic">
+
+        <span>Name: </span>
+        <input type="text" id="input-name" />
+        <hr />
+
+        <span>Email: </span>
+        <input type="text" id="input-email" />
+        <hr />
+
+        <span>Date of Birth: </span>
+        <input type="text" id="input-dob" placeholder="YYYY-MM-DD" />
+        <hr />
+
+        <span>Interests: </span>
+        <input type="text" id="input-interests" />
+        <hr />
+
+        <button onclick="handleUpdateProfile()">Update Profile</button>
+    </div>
+
+    <!-- Load Your JS Last -->
+    <script src="app.js"></script>
+</body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My App</title>
+  <script>
+    function handleSaveTask() {
+      const ulEl = document.getElementById("tasks");
+      const inputEl = document.getElementById("task");
+
+      const liEl = document.createElement("li");
+      liEl.textContent = inputEl.value;
+      ulEl.appendChild(liEl);
+
+      inputEl.value = ""; // optional: clear the input field after saving
+    }
+  </script>
+</head>
+<body>
+  <label>Add Task</label>
+  <input id="task" type="text" placeholder="new task" />
+  <button onclick="handleSaveTask()">Save</button>
+
+  <ul id="tasks">
+   
+  </ul>
+</body>
+</html>

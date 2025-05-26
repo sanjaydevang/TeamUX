@@ -1,25 +1,29 @@
 <template>
-  <div id="display-view">
+  <div class="profile-wrapper">
     <h1>User Profile</h1>
+
     <img :src="image" alt="profile" class="profile-pic" />
-    <hr/>
 
-    <span>Name: </span><b id="name">Anna Smith</b>
-    <hr />
+    <!-- View Mode -->
+    <div class="profile-details" v-show="!isEditing">
+      <p><strong>Name:</strong> {{ name }}</p>
+      <p><strong>Email:</strong> {{ email }}</p>
+      <p><strong>DOB:</strong> {{ dob }}</p>
+      <p><strong>Interests:</strong> {{ interests }}</p>
+      <button @click="isEditing = true">Edit Profile</button>
+    </div>
 
-    <span>Email: </span><b id="email">anna.smith@example.com</b>
-    <hr />
-
-    <span>Date of Birth: </span>
-    <input type="text" id="dob-display" placeholder="YYYY-MM-DD" />
-    <hr />
-
-    <span>Interests: </span><b id="interests">coding</b>
-    <hr />
-
-    <button @click="handleEditProfile">Edit Profile</button>
+    <!-- Edit Mode -->
+    <div class="profile-details" v-show="isEditing">
+      <p><strong>Name:</strong> <input v-model="name" /></p>
+      <p><strong>Email:</strong> <input v-model="email" /></p>
+      <p><strong>DOB:</strong> <input v-model="dob" /></p>
+      <p><strong>Interests:</strong> <input v-model="interests" /></p>
+      <button @click="isEditing = false">Save</button>
+    </div>
   </div>
 </template>
+
 
 <script>
 import image from './Ma.png';
@@ -28,45 +32,57 @@ export default {
   name: 'App',
   data() {
     return {
-      image
+      image,
+      name: 'Anna Smith',
+      email: 'anna.smith@example.com',
+      dob: '',
+      interests: 'coding',
+      isEditing: false
     };
-  },
-  methods: {
-    handleEditProfile() {
-      console.log('Edit clicked');
-    }
   }
 };
 </script>
 
+
 <style>
-
-#display-view {
-  margin: 20px;
+.profile-wrapper {
+  text-align: left;
   font-family: Arial, sans-serif;
-}
-
-.profile-container {
-  display: flex;
-  align-items: flex-start;
-  gap: 30px;
+  margin: 40px;
+  max-width: 400px;
 }
 
 .profile-pic {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 160px;
+  height: 160px;
   object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
 .profile-details {
-  flex: 1;
-  text-align: left;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fefefe;
 }
 
 .profile-details p {
-  margin: 10px 0;
+  margin: 12px 0;
+  font-size: 16px;
 }
+
+button {
+  margin-top: 16px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+
 </style>
-
-

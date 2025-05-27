@@ -3,29 +3,135 @@
 <head>
   <title>My App</title>
   <script>
-    function handleSaveTask() {
-      const ulEl = document.getElementById("tasks");
-      const inputEl = document.getElementById("task");
+    async function fetchTasks() {
+      try {
+        const res = await fetch('/get-tasks', {  // Fixed: correct endpoint URL
+          method: "GET",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
 
-      const liEl = document.createElement("li");
-      liEl.textContent = inputEl.value;
-      ulEl.appendChild(liEl);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
 
-      inputEl.value = ""; // optional: clear the input field after saving
+        const tasks = await res.json();  // Now expects direct array
+        const ulEl = document.getElementById("tasks");
+        
+        // Clear existing tasks before adding new ones
+        ulEl.innerHTML = '';
+
+        tasks.forEach(task => {
+          const liEl = document.createElement("li");
+          liEl.textContent = task;
+          ulEl.appendChild(liEl);
+        });
+
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    }
+
+    async function handleSaveTask() {
+      try {
+        const inputEl = document.getElementById("task");
+        
+        if (!inputEl.value.trim()) {
+          alert('Please enter a task');
+          return;
+        }
+
+        const payload = {
+          task: inputEl.value
+        };
+
+        const res = await fetch('/save-task', {  // Added leading slash for consistency
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const jsonRes = await res.json();
+        console.log(jsonRes);
+        
+        inputEl.value = ""; // Clear input after save
+        
+        // Refresh the task list to show the new task
+        await fetchTasks();
+
+      } catch (error) {
+        console.error('Error saving task:', error);
+      }
     }
   </script>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    
+    div {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    input {
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 200px;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    ul {
+      margin-top: 20px;
+      padding-left: 20px;
+    }
+    
+    li {
+      margin: 5px 0;
+      padding: 5px;
+      background-color: #f8f9fa;
+      border-radius: 3px;
+    }
+  </style>
 </head>
-<body>
-    <div>
-  <label>Add Task</label>
-  <input id="task" type="text" placeholder="new task" />
-  <button onclick="handleSaveTask()">Save</button>
+<body onload="fetchTasks()">
+  <div>
+    <label>Add Task</label>
+    <input id="task" type="text" placeholder="new task" />
+    <button onclick="handleSaveTask()">Save</button>
 
-  <ul id="tasks">
-    </ul>
-    </div>
-   
-  </ul>
+    <ul id="tasks"></ul>
+  </div>
 </body>
 </html>

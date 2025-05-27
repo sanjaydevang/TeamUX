@@ -19,11 +19,10 @@
       <p><strong>Email:</strong> <input v-model="email" /></p>
       <p><strong>DOB:</strong> <input v-model="dob" /></p>
       <p><strong>Interests:</strong> <input v-model="interests" /></p>
-      <button @click="isEditing = false">Save</button>
+      <button @click="handleUpdateProfile">Save</button>
     </div>
   </div>
 </template>
-
 
 <script>
 import image from './Ma.png';
@@ -33,16 +32,60 @@ export default {
   data() {
     return {
       image,
-      name: 'Anna Smith',
-      email: 'anna.smith@example.com',
+      name: '',
+      email: '',
       dob: '',
-      interests: 'coding',
+      interests: '',
       isEditing: false
-    };
+    }
+  },
+  async created() {
+    try {
+      const userData = await this.fetchUserProfile(); // Fixed typo: fetechUserProfile -> fetchUserProfile
+      this.name = userData.name;
+      this.email = userData.email;
+      this.dob = userData.dob;
+      this.interests = userData.interests;
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  },
+  methods: {
+    handleEditProfile() {
+      this.isEditing = true; // Fixed: isEditMode -> isEditing
+    },
+    async handleUpdateProfile() {
+      try {
+        const payload = {
+          name: this.name,
+          email: this.email,
+          dob: this.dob,
+          interests: this.interests
+        };
+        const resJson = await this.updateUserProfile(payload); // Added await
+        console.log(resJson);
+        this.isEditing = false; // Fixed: isEditMode -> isEditing
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
+    },
+    async fetchUserProfile() { // Fixed typo: fetechUserProfile -> fetchUserProfile
+      const res = await fetch('/get-profile'); // Added leading slash
+      return await res.json();
+    },
+    async updateUserProfile(payload) {
+      const res = await fetch('/update-profile', {
+        method: 'POST',
+        headers: { // Added missing headers
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload) // Fixed: missing colon and JSON.stringify
+      });
+      return await res.json();
+    }
   }
-};
+}
 </script>
-
 
 <style>
 .profile-wrapper {
@@ -84,5 +127,14 @@ button {
   border-radius: 6px;
 }
 
+button:hover {
+  background-color: #0056b3;
+}
 
+input {
+  margin-left: 10px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 </style>

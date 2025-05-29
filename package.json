@@ -1,0 +1,11 @@
+{
+  
+  
+  "dependencies": {
+    "datepicker.js": "^0.0.1-beta1",
+    "validator": "^13.15.0",
+    "vue": "3.5.14",
+    "chalk": "5.4.1",
+    "string": "3.3.0"
+  }
+}

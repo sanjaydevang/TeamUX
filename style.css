@@ -1,0 +1,21 @@
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+input {
+    padding: 10px;
+    font-size: 14px;
+    width: 220px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}

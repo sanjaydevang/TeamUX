@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile App</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 600px; 
+            margin: 50px auto; 
+            padding: 20px; 
+        }
+        .profile-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Profile Manager</h1>
+    
+    <div class="profile-section">
+        <h2>Current Profile</h2>
+        <div id="current-profile">Loading...</div>
+        <button onclick="loadProfile()">Refresh Profile</button>
+    </div>
+    
+    <div class="profile-section">
+        <h2>Update Profile</h2>
+        <label>Name:</label>
+        <input type="text" id="name" placeholder="Enter name">
+        
+        <label>Age:</label>
+        <input type="number" id="age" placeholder="Enter age">
+        
+        <label>Email:</label>
+        <input type="email" id="email" placeholder="Enter email">
+        
+        <label>Interests:</label>
+        <textarea id="interests" placeholder="Enter interests"></textarea>
+        
+        <button onclick="updateProfile()">Update Profile</button>
+    </div>
+
+    <script>
+        async function loadProfile() {
+            try {
+                const response = await fetch('/get-profile');
+                const profile = await response.json();
+                
+                document.getElementById('current-profile').innerHTML = `
+                    <p><strong>Name:</strong> ${profile.name}</p>
+                    <p><strong>Age:</strong> ${profile.age}</p>
+                    <p><strong>Email:</strong> ${profile.email}</p>
+                    <p><strong>Interests:</strong> ${profile.interests}</p>
+                `;
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                document.getElementById('current-profile').innerHTML = 'Error loading profile';
+            }
+        }
+
+        async function updateProfile() {
+            try {
+                const profileData = {
+                    name: document.getElementById('name').value,
+                    age: parseInt(document.getElementById('age').value),
+                    email: document.getElementById('email').value,
+                    interests: document.getElementById('interests').value
+                };
+
+                // Remove empty fields
+                Object.keys(profileData).forEach(key => {
+                    if (!profileData[key]) delete profileData[key];
+                });
+
+                const response = await fetch('/update-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                const result = await response.json();
+                console.log(result);
+                
+                // Clear form and reload profile
+                document.getElementById('name').value = '';
+                document.getElementById('age').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('interests').value = '';
+                
+                loadProfile();
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error updating profile');
+            }
+        }
+
+        // Load profile when page loads
+        window.onload = loadProfile;
+    </script>
+</body>
+</html>

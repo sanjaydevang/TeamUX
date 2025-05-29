@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from 'express';
 import { MongoClient } from 'mongodb';
 import { fileURLToPath } from 'url';
@@ -14,6 +15,13 @@ const url = 'mongodb://localhost:27017'; // MongoDB connection URL
 const client = new MongoClient(url);
 
 app.use(express.json());
+=======
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+>>>>>>> 1f1a15727cc9e3766510d5e789fc95bb2bb4cb56
 
 // Serve static files from current directory instead of dist
 app.use('/', express.static(__dirname + '/dist'));
@@ -26,6 +34,7 @@ let profileData = {
   interests: "coding"
 };
 
+<<<<<<< HEAD
 // Connect to MongoDB once at startup
 async function connectToMongoDB() {
   try {
@@ -89,6 +98,28 @@ app.post('/update-profile', async function (req, res) {
     
     console.log('Updated documents =>', updateResult);
     
+=======
+app.get('/get-profile', function (req, res) {
+  try {
+    res.json(profileData);
+  } catch (error) {
+    console.error('Error getting profile:', error);
+    res.status(500).json({ error: 'Failed to get profile' });
+  }
+});
+
+app.post('/update-profile', function (req, res) {
+  try {
+    const payload = req.body;
+    
+    if (!payload) {
+      return res.status(400).json({ error: 'No data provided' });
+    }
+    
+    // Update the profile data
+    profileData = { ...profileData, ...payload };
+    
+>>>>>>> 1f1a15727cc9e3766510d5e789fc95bb2bb4cb56
     console.log('Updated profile:', profileData);
     
     // Respond consistently with JSON
@@ -105,6 +136,7 @@ app.post('/update-profile', async function (req, res) {
 app.listen(3000, function () {
   console.log("App listening on port 3000");
   console.log("Visit: http://localhost:3000");
+<<<<<<< HEAD
 });
 
 // Graceful shutdown
@@ -117,4 +149,6 @@ process.on('SIGINT', async () => {
     console.error('Error closing MongoDB connection:', error);
     process.exit(1);
   }
+=======
+>>>>>>> 1f1a15727cc9e3766510d5e789fc95bb2bb4cb56
 });

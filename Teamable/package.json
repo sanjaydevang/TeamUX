@@ -2,34 +2,16 @@
   "name": "teamable",
   "version": "1.0.0",
   "dependencies": {
-<<<<<<< HEAD
-    "@vue/cli-service": "5.0.8",
-    "@vue/compiler-sfc": "3.2.40",
-    "body-parser": "^2.2.0",
-    "core-js": "3.25.5",
-    "express": "^4.18.2",
-    "mongodb": "^6.16.0",
-    "vue": "3.2.40"
-=======
     "vue": "3.2.40",
     "core-js": "3.25.5",
     "@vue/compiler-sfc": "3.2.40",
     "@vue/cli-service": "5.0.8",
-    "express": "4.18.2"
->>>>>>> 1f1a15727cc9e3766510d5e789fc95bb2bb4cb56
+    "express": "4.18.2",
+    "mongodb": "4.1.0"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "start": "node server.js"
-<<<<<<< HEAD
-  },
-  "main": "app.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
-=======
   }
->>>>>>> 1f1a15727cc9e3766510d5e789fc95bb2bb4cb56
 }
